@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Item from './item';
 
-const ItemList = ({ items }) => {
+const ItemList = ({ items, onItemSelect }) => {
   const [sortBy, setSortBy] = useState('name');
   const [groupByCategory, setGroupByCategory] = useState(false);
 
@@ -32,7 +32,13 @@ const ItemList = ({ items }) => {
           <h3 className="capitalize font-bold">{category}</h3>
           <ul>
             {groupedItems[category].map((item, index) => (
-              <Item key={index} name={item.name} quantity={item.quantity} category={item.category} />
+              <Item
+                key={index}
+                name={item.name}
+                quantity={item.quantity}
+                category={item.category}
+                onSelect={() => onItemSelect(item)}
+              />
             ))}
           </ul>
         </div>
@@ -41,7 +47,13 @@ const ItemList = ({ items }) => {
     return (
       <ul>
         {sortedItems.map((item, index) => (
-          <Item key={index} name={item.name} quantity={item.quantity} category={item.category} />
+          <Item
+            key={index}
+            name={item.name}
+            quantity={item.quantity}
+            category={item.category}
+            onSelect={() => onItemSelect(item)}
+          />
         ))}
       </ul>
     );
@@ -49,7 +61,7 @@ const ItemList = ({ items }) => {
 
   return (
     <div className="p-4 bg-black-100 rounded-lg">
-      <div className="mb-4">
+      <div className="mb-4 flex justify-left">
         <button
           onClick={() => { setSortBy('name'); setGroupByCategory(false); }}
           className={`mr-2 px-4 py-2 ${sortBy === 'name' && !groupByCategory ? 'bg-blue-500 text-black' : 'bg-blue-200'}`}
